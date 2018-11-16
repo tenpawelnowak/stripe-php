@@ -6,37 +6,32 @@ use Exception;
 
 abstract class Base extends Exception
 {
+    protected $httpBody;
+    protected $httpHeaders;
+    protected $httpStatus;
+    protected $jsonBody;
+    protected $requestId;
+    protected $stripeCode;
+
     public function __construct(
         $message,
         $httpStatus = null,
         $httpBody = null,
         $jsonBody = null,
-        $httpHeaders = null
+        $httpHeaders = null,
+        $stripeCode = null
     ) {
         parent::__construct($message);
         $this->httpStatus = $httpStatus;
         $this->httpBody = $httpBody;
         $this->jsonBody = $jsonBody;
         $this->httpHeaders = $httpHeaders;
+        $this->stripeCode = $stripeCode;
+
         $this->requestId = null;
-
-        // TODO: make this a proper constructor argument in the next major
-        //       release.
-        $this->stripeCode = isset($jsonBody["error"]["code"]) ? $jsonBody["error"]["code"] : null;
-
         if ($httpHeaders && isset($httpHeaders['Request-Id'])) {
             $this->requestId = $httpHeaders['Request-Id'];
         }
-    }
-
-    public function getStripeCode()
-    {
-        return $this->stripeCode;
-    }
-
-    public function getHttpStatus()
-    {
-        return $this->httpStatus;
     }
 
     public function getHttpBody()
@@ -44,19 +39,29 @@ abstract class Base extends Exception
         return $this->httpBody;
     }
 
-    public function getJsonBody()
-    {
-        return $this->jsonBody;
-    }
-
     public function getHttpHeaders()
     {
         return $this->httpHeaders;
     }
 
+    public function getHttpStatus()
+    {
+        return $this->httpStatus;
+    }
+
+    public function getJsonBody()
+    {
+        return $this->jsonBody;
+    }
+
     public function getRequestId()
     {
         return $this->requestId;
+    }
+
+    public function getStripeCode()
+    {
+        return $this->stripeCode;
     }
 
     public function __toString()
