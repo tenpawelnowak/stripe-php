@@ -56,7 +56,7 @@ echo $charge;
 
 ## Documentation
 
-Please see https://stripe.com/docs/api for up-to-date documentation.
+Please see https://stripe.com/docs/api?lang=php for up-to-date documentation.
 
 ## Legacy Version Support
 
